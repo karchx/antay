@@ -1,0 +1,3 @@
+(executable
+ (public_name compiler_ground)
+ (name main))
