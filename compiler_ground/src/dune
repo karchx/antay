@@ -1,3 +1,8 @@
 (executable
+ (name main)
  (public_name compiler_ground)
- (name main))
+ (libraries core fmt core_unix.sys_unix core_unix.command_unix)
+ (preprocess
+   (pps ppx_jane))
+ (lint
+  (pps ppx_js_style -annotated-ignores -styler -pretty -dated-deprecation)))
