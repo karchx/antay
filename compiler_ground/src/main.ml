@@ -24,7 +24,11 @@ let command =
         ~readme:(fun () -> "Working list optins...")
         Command.Let_syntax.(
             let%map_open filename = anon (maybe_with_default "-" ("filename" %: ay_file)) in
-            fun () -> printf "'%s' file\n%!" filename;)
+            fun () ->
+                In_channel.with_file filename ~f:(fun file_ic ->
+                    let lexbuf =
+                        Lexing.from_channel file_ic in
+                    compiler_program_ir lexbuf))
 
 
 let () = Command_unix.run ~version:"0.1" ~build_info:"RWO" command
