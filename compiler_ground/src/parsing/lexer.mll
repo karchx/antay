@@ -37,6 +37,7 @@ rule read_token =
     | "+" { PLUS }
     | "-" { MINUS }
     | "let" { LET }
+    | "const" { CONST }
     | "*" { MULT }
     | "/" { DIV }
     | "fn" { FUNC }

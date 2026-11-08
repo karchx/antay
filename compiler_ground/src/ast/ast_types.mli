@@ -21,7 +21,8 @@ type type_expr =
     | TEVoid
 [@@deriving equal]
 
-type expr = 
+type expr =
+    | Int of loc * int
     | Identifier of loc * identifier
-    | Func of loc * Fn_name.t * expr
+    | Func of loc * Fn_name.t * expr list
 

@@ -30,6 +30,7 @@ type type_expr =
 [@@deriving equal]
 
 type expr =
+    | Int of loc * int
     | Identifier of loc * identifier
-    | Func of loc * Fn_name.t * expr
+    | Func of loc * Fn_name.t * expr list
 

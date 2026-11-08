@@ -1,5 +1,6 @@
 open Core
 open Core_unix
+open Parsing.Lex_and_parser
 
 let ay_file =
     Command.Arg_type.create (fun filename ->
@@ -19,6 +20,13 @@ let ay_file =
                 exit 1
     )
 
+let compile_test lexbuf =
+    let open Result in
+    parse_program lexbuf
+    |> function
+    | Ok program -> ()
+    | Error e    -> eprintf "%s" (Core.Error.to_string_hum e)
+
 let command = 
     Command.basic ~summary: "base Ground from drone antay"
         ~readme:(fun () -> "Working list optins...")
@@ -28,7 +36,7 @@ let command =
                 In_channel.with_file filename ~f:(fun file_ic ->
                     let lexbuf =
                         Lexing.from_channel file_ic in
-                    compiler_program_ir lexbuf))
+                    compile_test lexbuf))
 
 
 let () = Command_unix.run ~version:"0.1" ~build_info:"RWO" command
