@@ -29,14 +29,21 @@ type type_expr =
     | TEVoid
 [@@deriving equal]
 
+type bin_op =
+    | BinOpPlus
+    | BinOpMinus
+    | BinOpMult
+    | BinOpDiv
+    | BinOpEq
+
 type expr =
     | Int of loc * int
     | Float of loc * float
     | Neg of loc * expr
     | Identifier of loc * identifier
+    | BinOp of loc * bin_op * expr * expr
     | Array of loc * expr list
     | MemberAccess of loc * expr * string
-
 
 type stmt =
     | ExprStmt of loc * expr
@@ -45,3 +52,4 @@ type stmt =
 
 type program =
     | Func of loc * Fn_name.t * Var_name.t list * stmt list
+

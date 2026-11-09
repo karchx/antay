@@ -68,5 +68,11 @@ expr:
 | LBRACKET elements=separated_list(COMMA, expr) RBRACKET { Array($startpos, elements) }
 | MINUS e=expr %prec UMINUS { Neg($startpos, e) }
 | e=expr DOT prop=ID { MemberAccess($startpos, e, prop) }
+| e1=expr op=bin_op e2=expr { BinOp($startpos, op, e1, e2) }
 
-
+%inline bin_op:
+| PLUS { BinOpPlus }
+| MINUS { BinOpMinus }
+| MULT { BinOpMult }
+| DIV { BinOpDiv }
+| EQUAL { BinOpEq }

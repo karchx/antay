@@ -40,10 +40,10 @@ rule read_token =
     | "=" { EQUAL }
     | "+" { PLUS }
     | "-" { MINUS }
-    | "let" { LET }
-    | "const" { CONST }
     | "*" { MULT }
     | "/" { DIV }
+    | "let" { LET }
+    | "const" { CONST }
     | "fn" { FUNC }
     | "if" { IF }
     | "else" { ELSE }
