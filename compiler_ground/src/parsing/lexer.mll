@@ -17,9 +17,10 @@
 
 (* Define helper regex *)
 let digit = ['0'-'9']
+let float_num = digit+ '.' digit+ (['e' 'E'] ['+' '-']? digit+)?
 let alpha = ['a'-'z' 'A'-'Z']
 
-let int = '-'? digit+
+let int = digit+
 let id = (alpha) (alpha|digit|'_')* (* regex for identifier *)
 let whitespace = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
@@ -30,9 +31,12 @@ rule read_token =
     | ")" { RPAREN }
     | "{" { LBRACE }
     | "}" { RBRACE }
+    | "[" { LBRACKET }
+    | "]" { RBRACKET }
     | ":" { COLON }
     | ";" { SEMICOLON }
     | "," { COMMA }
+    | "." { DOT }
     | "=" { EQUAL }
     | "+" { PLUS }
     | "-" { MINUS }
@@ -48,6 +52,7 @@ rule read_token =
     | "--" { read_single_line_comment lexbuf }
     | "/*" { read_multi_line_comment lexbuf }
     | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+    | float_num { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
     | id { ID (Lexing.lexeme lexbuf) }
         | '"' { read_string (Buffer.create 17) lexbuf }
     | newline { next_line lexbuf; read_token lexbuf }

@@ -1,14 +1,13 @@
-const gyro_bias = [0.012, -0.005, 0.003];
-const accel_bias = [0.1, 0.0, -0.05];
-
 fn on_telemetry_receive(data) {
-    let real_gyro = data.gyro - gyro_bias;
-    
-    let accel_mag = norm(data.accel);
-    
-    if (accel_mag > 10.0) {
-        log("Alert");
-    }
+    const gyro_bias = [0.012, -0.005, 0.003];
+    const accel_bias = [0.1, 0.0, -0.05];
+
+    let real_gyro = data.gyro - gyro_bias;
+    let accel_mag = norm(data.accel);
+
+    if (accel_mag > 10.0) {
+        log("Alert");
+    }
 }
 
 fn main() {

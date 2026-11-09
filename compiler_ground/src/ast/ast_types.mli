@@ -23,6 +23,17 @@ type type_expr =
 
 type expr =
     | Int of loc * int
+    | Float of loc * float
+    | Neg of loc * expr
     | Identifier of loc * identifier
-    | Func of loc * Fn_name.t * expr list
+    | Array of loc * expr list
+    | MemberAccess of loc * expr * string
+
+type stmt =
+    | ExprStmt of loc * expr
+    | Let of loc * Var_name.t * expr
+    | Const of loc * Var_name.t * expr
+
+type program =
+    | Func of loc * Fn_name.t * Var_name.t list * stmt list
 
