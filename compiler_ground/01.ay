@@ -7,6 +7,8 @@ fn on_telemetry_receive(data) {
 
     if (accel_mag > 10.0) {
         log("Alert");
+    } else {
+        log("continue");
     }
 }
 

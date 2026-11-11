@@ -36,7 +36,9 @@ type bin_op =
     | BinOpDiv
     | BinOpEq
 
-type expr =
+type block =
+    | Block of loc * stmt list * expr option
+and expr =
     | Int of loc * int
     | Float of loc * float
     | Neg of loc * expr
@@ -44,12 +46,10 @@ type expr =
     | BinOp of loc * bin_op * expr * expr
     | Array of loc * expr list
     | MemberAccess of loc * expr * string
-
-type stmt =
+    | If of loc * expr * block * block option
+and stmt =
     | ExprStmt of loc * expr
     | Let of loc * Var_name.t * expr
     | Const of loc * Var_name.t * expr
-
-type program =
+and program =
     | Func of loc * Fn_name.t * Var_name.t list * stmt list
-

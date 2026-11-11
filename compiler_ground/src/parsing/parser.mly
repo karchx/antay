@@ -49,6 +49,9 @@ program:
     Func($startpos, Fn_name.of_string name, args, body)
 }
 
+block_expr:
+| LBRACE e=option(expr) stmts=list(stmts) RBRACE { Block($startpos, stmts, e) }
+
 identifier:
 | variable=ID { Variable(Var_name.of_string variable)}
 
@@ -69,6 +72,7 @@ expr:
 | MINUS e=expr %prec UMINUS { Neg($startpos, e) }
 | e=expr DOT prop=ID { MemberAccess($startpos, e, prop) }
 | e1=expr op=bin_op e2=expr { BinOp($startpos, op, e1, e2) }
+| IF cond=expr then_branch=block_expr ELSE else_blk=option(block_expr) { If($startpos, cond, then_branch, else_blk) }
 
 %inline bin_op:
 | PLUS { BinOpPlus }
