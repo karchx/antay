@@ -45,11 +45,13 @@ type block =
 and expr =
     | Int of loc * int
     | Float of loc * float
+    | String of loc * string
     | Neg of loc * expr
     | Identifier of loc * identifier
     | BinOp of loc * bin_op * expr * expr
     | Array of loc * expr list
     | MemberAccess of loc * expr * string
+    | Call of loc * expr * expr list
     | If of loc * expr * block * block option
 and stmt =
     | ExprStmt of loc * expr

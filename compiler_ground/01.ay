@@ -3,11 +3,10 @@ fn on_telemetry_receive(data) {
     const accel_bias = [0.1, 0.0, -0.05];
 
     let real_gyro = data.gyro - gyro_bias;
-    -- let accel_mag = norm(data.accel);
+    let accel_mag = norm(data.accel);
 
     if (accel_mag > 10.0) {
-        1 + 1;
-        -- log("Alert");
+        log("Alert");
     };
 }
 
