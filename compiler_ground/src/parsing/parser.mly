@@ -18,6 +18,10 @@
 %token SEMICOLON
 %token COMMA
 %token DOT
+%token GT
+%token LT
+%token GTE
+%token LTE
 %token EQUAL
 %token PLUS
 %token MINUS
@@ -32,6 +36,7 @@
 %token EOF
 
 %right EQUAL
+%nonassoc GT GTE LT LTE
 %left PLUS MINUS
 %left MULT DIV
 %nonassoc UMINUS
@@ -50,7 +55,7 @@ program:
 }
 
 block_expr:
-| LBRACE e=option(expr) stmts=list(stmts) RBRACE { Block($startpos, stmts, e) }
+| LBRACE stmts=list(stmts) e=option(expr) RBRACE { Block($startpos, stmts, e) }
 
 identifier:
 | variable=ID { Variable(Var_name.of_string variable)}
@@ -59,6 +64,7 @@ stmts:
 | e=expr SEMICOLON { ExprStmt($startpos, e) }
 | LET var_name=ID EQUAL bound_expr=expr SEMICOLON { Let($startpos, Var_name.of_string var_name, bound_expr) }
 | CONST var_name=ID EQUAL bound_expr=expr SEMICOLON { Const($startpos, Var_name.of_string var_name, bound_expr) }
+| LOOP LBRACE body=list(stmts) RBRACE { Loop($startpos, body) }
 
 params:
 | ids=separated_list(COMMA, ID) { List.map Var_name.of_string ids }
@@ -72,7 +78,8 @@ expr:
 | MINUS e=expr %prec UMINUS { Neg($startpos, e) }
 | e=expr DOT prop=ID { MemberAccess($startpos, e, prop) }
 | e1=expr op=bin_op e2=expr { BinOp($startpos, op, e1, e2) }
-| IF cond=expr then_branch=block_expr ELSE else_blk=option(block_expr) { If($startpos, cond, then_branch, else_blk) }
+| IF cond=expr then_branch=block_expr ELSE else_blk=block_expr { If($startpos, cond, then_branch, Some else_blk) }
+| IF cond=expr then_branch=block_expr { If($startpos, cond, then_branch, None) }
 
 %inline bin_op:
 | PLUS { BinOpPlus }
@@ -80,3 +87,7 @@ expr:
 | MULT { BinOpMult }
 | DIV { BinOpDiv }
 | EQUAL { BinOpEq }
+| GT { BinOpGt }
+| GTE { BinOpGte }
+| LT { BinOpLt }
+| LTE { BinOpLte }

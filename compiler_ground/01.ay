@@ -6,10 +6,9 @@ fn on_telemetry_receive(data) {
     -- let accel_mag = norm(data.accel);
 
     if (accel_mag > 10.0) {
-        log("Alert");
-    } else {
-        log("continue");
-    }
+        1 + 1;
+        -- log("Alert");
+    };
 }
 
 fn main() {

@@ -35,6 +35,10 @@ type bin_op =
     | BinOpMult
     | BinOpDiv
     | BinOpEq
+    | BinOpGt
+    | BinOpGte
+    | BinOpLt
+    | BinOpLte
 
 type block =
     | Block of loc * stmt list * expr option
@@ -51,5 +55,6 @@ and stmt =
     | ExprStmt of loc * expr
     | Let of loc * Var_name.t * expr
     | Const of loc * Var_name.t * expr
+    | Loop of loc * stmt list
 and program =
     | Func of loc * Fn_name.t * Var_name.t list * stmt list

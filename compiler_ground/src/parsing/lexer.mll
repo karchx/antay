@@ -37,6 +37,10 @@ rule read_token =
     | ";" { SEMICOLON }
     | "," { COMMA }
     | "." { DOT }
+    | ">" { GT }
+    | "<" { LT }
+    | ">=" { GTE }
+    | "<=" { LTE }
     | "=" { EQUAL }
     | "+" { PLUS }
     | "-" { MINUS }
